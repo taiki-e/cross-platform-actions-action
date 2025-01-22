@@ -91,7 +91,7 @@ export abstract class Architecture {
     }
 
     override get cpu(): string {
-      return 'cortex-a57'
+      return 'neoverse-v1'
     }
 
     override get machineType(): string {

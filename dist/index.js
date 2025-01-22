@@ -143,7 +143,7 @@ class Action {
         });
     }
     creareVm(hypervisorDirectory, firmwareDirectory, resourcesDirectory, config) {
-        return this.operatingSystem.createVirtualMachine(hypervisorDirectory, resourcesDirectory, firmwareDirectory, this.input, Object.assign(Object.assign({}, config), { diskImage: path.join(resourcesDirectory, this.targetDiskName), 
+        return this.operatingSystem.createVirtualMachine(hypervisorDirectory, resourcesDirectory, firmwareDirectory, this.input, Object.assign(Object.assign({}, config), { diskImage: path.join(resourcesDirectory, this.targetDiskName),
             // xhyve
             resourcesDiskImage: this.resourceDisk.diskPath, userboot: path.join(firmwareDirectory, 'userboot.so') }));
     }
@@ -725,7 +725,7 @@ Architecture.Arm64 = class extends Architecture {
         return `${this.resourceBaseUrl}/qemu-system-aarch64-${this.hostString}.tar`;
     }
     get cpu() {
-        return 'cortex-a57';
+        return 'neoverse-v1';
     }
     get machineType() {
         return 'virt';
@@ -1328,7 +1328,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const factory_1 = __nccwpck_require__(133);
 const freebsd_1 = __importDefault(__nccwpck_require__(791));
-let FreeBsdFactory = 
+let FreeBsdFactory =
 //@ts-ignore
 class FreeBsdFactory extends factory_1.Factory {
     createImpl(version) {
@@ -1406,9 +1406,9 @@ let FreeBsd = class FreeBsd extends os.OperatingSystem {
     }
     createVirtualMachine(hypervisorDirectory, resourcesDirectory, firmwareDirectory, input, configuration) {
         core.debug('Creating FreeBSD VM');
-        const config = Object.assign(Object.assign({}, configuration), { ssHostPort: this.ssHostPort, firmware: path.join(firmwareDirectory.toString(), this.architecture.hypervisor.firmwareFile), 
+        const config = Object.assign(Object.assign({}, configuration), { ssHostPort: this.ssHostPort, firmware: path.join(firmwareDirectory.toString(), this.architecture.hypervisor.firmwareFile),
             // qemu
-            cpu: this.architecture.cpu, machineType: this.architecture.machineType, 
+            cpu: this.architecture.cpu, machineType: this.architecture.machineType,
             // xhyve
             uuid: this.uuid });
         const cls = this.hypervisor.resolve({ qemu: qemu_vm_1.QemuVm, xhyve: xhyve_vm_1.XhyveVm });
@@ -1487,7 +1487,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const factory_1 = __nccwpck_require__(133);
 const qemu_factory_1 = __importDefault(__nccwpck_require__(1149));
 const haiku_1 = __importDefault(__nccwpck_require__(70));
-let HaikuFactory = 
+let HaikuFactory =
 //@ts-ignore
 class HaikuFactory extends qemu_factory_1.default {
     createImpl(version) {
@@ -1668,7 +1668,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const factory_1 = __nccwpck_require__(133);
 const qemu_factory_1 = __importDefault(__nccwpck_require__(1149));
 const netbsd_1 = __importDefault(__nccwpck_require__(7372));
-let NetBsdFactory = 
+let NetBsdFactory =
 //@ts-ignore
 class NetBsdFactory extends qemu_factory_1.default {
     createImpl(version) {
@@ -1884,7 +1884,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const factory_1 = __nccwpck_require__(133);
 const openbsd_1 = __importDefault(__nccwpck_require__(9243));
-let OpenBsdFactory = 
+let OpenBsdFactory =
 //@ts-ignore
 class OpenBsdFactory extends factory_1.Factory {
     createImpl(version, _hypervisor) {
@@ -1955,9 +1955,9 @@ let OpenBsd = class OpenBsd extends os.OperatingSystem {
     }
     createVirtualMachine(hypervisorDirectory, resourcesDirectory, firmwareDirectory, input, configuration) {
         core.debug('Creating OpenBSD VM');
-        const config = Object.assign(Object.assign({}, configuration), { ssHostPort: this.ssHostPort, firmware: path.join(firmwareDirectory.toString(), this.architecture.efiHypervisor.firmwareFile), 
+        const config = Object.assign(Object.assign({}, configuration), { ssHostPort: this.ssHostPort, firmware: path.join(firmwareDirectory.toString(), this.architecture.efiHypervisor.firmwareFile),
             // qemu
-            cpu: this.architecture.cpu, machineType: this.architecture.machineType, 
+            cpu: this.architecture.cpu, machineType: this.architecture.machineType,
             // xhyve
             uuid: this.uuid });
         let qemuVmClass = this.architecture.resolve({
@@ -2083,9 +2083,9 @@ class Qemu extends os.OperatingSystem {
     }
     createVirtualMachine(hypervisorDirectory, resourcesDirectory, firmwareDirectory, input, configuration) {
         core.debug(`Creating ${this.name} VM`);
-        const config = Object.assign(Object.assign({}, configuration), { ssHostPort: this.ssHostPort, firmware: path.join(firmwareDirectory.toString(), this.hypervisor.firmwareFile), 
+        const config = Object.assign(Object.assign({}, configuration), { ssHostPort: this.ssHostPort, firmware: path.join(firmwareDirectory.toString(), this.hypervisor.firmwareFile),
             // qemu
-            cpu: this.architecture.cpu, machineType: this.architecture.machineType, 
+            cpu: this.architecture.cpu, machineType: this.architecture.machineType,
             // xhyve
             uuid: this.uuid });
         return new this.vmClass(hypervisorDirectory, resourcesDirectory, this.architecture, input, config);
@@ -3646,8 +3646,8 @@ class OidcClient {
             const res = yield httpclient
                 .getJson(id_token_url)
                 .catch(error => {
-                throw new Error(`Failed to get ID Token. \n 
-        Error Code : ${error.statusCode}\n 
+                throw new Error(`Failed to get ID Token. \n
+        Error Code : ${error.statusCode}\n
         Error Message: ${error.result.message}`);
             });
             const id_token = (_a = res.result) === null || _a === void 0 ? void 0 : _a.value;
@@ -11843,7 +11843,7 @@ function bytesToUuid(buf, offset) {
   var i = offset || 0;
   var bth = byteToHex;
   // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
-  return ([bth[buf[i++]], bth[buf[i++]], 
+  return ([bth[buf[i++]], bth[buf[i++]],
 	bth[buf[i++]], bth[buf[i++]], '-',
 	bth[buf[i++]], bth[buf[i++]], '-',
 	bth[buf[i++]], bth[buf[i++]], '-',
@@ -13577,7 +13577,7 @@ module.exports = function sign(number) {
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __nccwpck_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -13591,7 +13591,7 @@ module.exports = function sign(number) {
 /******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		var threw = true;
 /******/ 		try {
@@ -13600,24 +13600,24 @@ module.exports = function sign(number) {
 /******/ 		} finally {
 /******/ 			if(threw) delete __webpack_module_cache__[moduleId];
 /******/ 		}
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat */
-/******/ 	
+/******/
 /******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
-/******/ 	
+/******/
 /************************************************************************/
-/******/ 	
+/******/
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
 /******/ 	var __webpack_exports__ = __nccwpck_require__(3109);
 /******/ 	module.exports = __webpack_exports__;
-/******/ 	
+/******/
 /******/ })()
 ;
 //# sourceMappingURL=index.js.map
