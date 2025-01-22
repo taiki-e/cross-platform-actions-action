@@ -769,7 +769,7 @@ Architecture.Arm64 = class extends Architecture {
         return `${this.resourceBaseUrl}/qemu-system-aarch64-${this.hostString}.tar`;
     }
     get cpu() {
-        return 'cortex-a57';
+        return 'neoverse-v1';
     }
     get machineType() {
         return 'virt';
