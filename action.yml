@@ -8,10 +8,10 @@ inputs:
       Runs command-line programs using the operating system's shell.
       This will be executed inside the virtual machine.
     default: ''
-    deprecationMessage: >
-      The "run" parameter is deprecated. Use the custom shell
-      (`shell: cpa.sh {0}`) on subsequent steps to run commands in the
-      virtual machine instead.
+    # deprecationMessage: >
+    #   The "run" parameter is deprecated. Use the custom shell
+    #   (`shell: cpa.sh {0}`) on subsequent steps to run commands in the
+    #   virtual machine instead.
   operating_system:
     required: true
     description: The type of operating system to run the job on
@@ -40,6 +40,9 @@ inputs:
   cpu_count:
     required: false
     description: The number of CPU cores for the virtual machine
+  cpu:
+    required: false
+    description: QEMU cpu
   image_url:
     required: false
     description: URL for running the action with a custom image.
