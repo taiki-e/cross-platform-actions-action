@@ -1,4 +1,5 @@
 import {Architecture} from '../../architecture'
+import * as core from '@actions/core'
 import * as hypervisor from '../../hypervisor'
 
 export class Arm64 extends Architecture {
@@ -15,7 +16,11 @@ export class Arm64 extends Architecture {
   }
 
   override get cpu(): string {
-    return 'cortex-a57'
+    const cpu = core.getInput('cpu')
+    core.debug(`cpu input: '${cpu}'`)
+    if (cpu === undefined || cpu === '')
+      return 'cortex-a57'
+    return cpu
   }
 
   override get machineType(): string {
