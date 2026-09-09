@@ -1114,6 +1114,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.Arm64 = void 0;
 const architecture_1 = __nccwpck_require__(4019);
+const core = __importStar(__nccwpck_require__(2186));
 const hypervisor = __importStar(__nccwpck_require__(4288));
 class Arm64 extends architecture_1.Architecture {
     get name() {
@@ -1126,7 +1127,10 @@ class Arm64 extends architecture_1.Architecture {
         return `${this.resourceBaseUrl}/qemu-system-aarch64-${this.hostString}.tar`;
     }
     get cpu() {
-        return 'cortex-a57';
+        const cpu = core.getInput('cpu');
+        core.debug(`cpu input: '${cpu}'`);
+        if (cpu === undefined || cpu === '') return 'cortex-a57';
+        return cpu;
     }
     get machineType() {
         return 'virt';
